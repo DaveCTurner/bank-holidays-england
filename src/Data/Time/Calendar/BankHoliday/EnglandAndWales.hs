@@ -47,6 +47,7 @@ module Data.Time.Calendar.BankHoliday.EnglandAndWales
   , countBankHolidays
   ) where
 
+import Data.List
 import Data.Time
 import Data.Time.Calendar.Easter
 import qualified Data.Set as S
@@ -90,22 +91,31 @@ bankHolidays yy = standardHolidays ++ if yy == 1999 then [dec 31] else []
   firstMondayIn mm = addDays (negate $ wd mm 02) (mm 07)
   weekBefore = addDays (-7)
 
+skipped :: S.Set Day
+skipped = S.fromList  [ fromGregorian 1995 05 1
+                      , fromGregorian 2002 05 27
+                      , fromGregorian 2012 05 28
+                      ]
+
+extras :: S.Set Day
+extras  = S.fromList  [ fromGregorian 1995 05 08
+                      , fromGregorian 1999 12 31
+                      , fromGregorian 2002 06 03
+                      , fromGregorian 2002 06 04
+                      , fromGregorian 2011 04 29
+                      , fromGregorian 2012 06 04
+                      , fromGregorian 2012 06 05
+                      ]
+
+extraYears :: [Integer]
+extraYears = yearsOf extras \\ yearsOf skipped
+  where
+  yearsOf s = [y | (y,_,_) <- map toGregorian $ S.toList s]
+
 {-| Returns whether a day is a bank holiday. -}
 isBankHoliday :: Day -> Bool
 isBankHoliday d = (not $ S.member d skipped) && (S.member d extras || isStandardHoliday)
   where
-  skipped = S.fromList  [ fromGregorian 1995 05 1
-                        , fromGregorian 2002 05 27
-                        , fromGregorian 2012 05 28
-                        ]
-  extras  = S.fromList  [ fromGregorian 1995 05 08
-                        , fromGregorian 1999 12 31
-                        , fromGregorian 2002 06 03
-                        , fromGregorian 2002 06 04
-                        , fromGregorian 2011 04 29
-                        , fromGregorian 2012 06 04
-                        , fromGregorian 2012 06 05
-                        ]
   (yy,mm,dd)   = toGregorian d
   dayOfWeek    = mod (toModifiedJulianDay d) 7
   isMonday     = dayOfWeek == 5
@@ -147,7 +157,7 @@ countBankHolidays = countDaysWrapper go
       then fromIntegral $ length $ takeWhile (<d1) $ dropWhile (<d0) $ bankHolidays y0
       else fromIntegral (length (takeWhile (<d1) $ bankHolidays y1)
                        - length (takeWhile (<d0) $ bankHolidays y0)
-                       + length (dropWhile (<y0) $ takeWhile (<y1) [1999,2002,2011,2012]))
+                       + length (dropWhile (<y0) $ takeWhile (<y1) extraYears))
          + 8 * (y1 - y0)
     where
     (y0,_,_) = toGregorian d0
