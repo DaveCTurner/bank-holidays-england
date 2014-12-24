@@ -135,12 +135,6 @@ isBankHoliday d = (not $ S.member d skipped) && (S.member d extras || isStandard
                 || (mm == 12 && 25 <= dd && (dd < 27 || (dayOfWeek == 6 && dd < 29)))
                 || d == addDays (-2) easterSunday
 
-countDaysWrapper :: (Day -> Day -> Integer) -> Day -> Day -> Integer
-countDaysWrapper f d0 d1 = case compare d0 d1 of
-  LT -> f d0 d1
-  EQ -> 0
-  GT -> negate $ f d1 d0
-
 {-| Count the number of bank holidays between two 'Day's.
 
 If @d0 <= d1@ then @countBankHolidays d0 d1@ is the number of 'Day's @d@ for
@@ -152,15 +146,16 @@ Additionally, @countBankHolidays d0 d1 == negate (countBankHolidays d1 d0)@ and
 
  -}
 countBankHolidays :: Day -> Day -> Integer
-countBankHolidays = countDaysWrapper go
-  where
-  go d0 d1 =
-    if y0 == y1
-      then fromIntegral $ length $ takeWhile (<d1) $ dropWhile (<d0) $ bankHolidays y0
-      else fromIntegral (length (takeWhile (<d1) $ bankHolidays y1)
-                       - length (takeWhile (<d0) $ bankHolidays y0)
-                       + length (dropWhile (<y0) $ takeWhile (<y1) extraYears))
-         + 8 * (y1 - y0)
+countBankHolidays d0 d1
+  = if d0 <= d1 then
+      if y0 == y1
+        then fromIntegral $ length $ takeWhile (<d1) $ dropWhile (<d0) $ bankHolidays y0
+        else fromIntegral (length (takeWhile (<d1) $ bankHolidays y1)
+                         - length (takeWhile (<d0) $ bankHolidays y0)
+                         + length (dropWhile (<y0) $ takeWhile (<y1) extraYears))
+           + 8 * (y1 - y0)
+    else negate (countBankHolidays d1 d0)
+
     where
     (y0,_,_) = toGregorian d0
     (y1,_,_) = toGregorian d1
