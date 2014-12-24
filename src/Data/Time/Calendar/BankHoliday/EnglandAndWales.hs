@@ -47,10 +47,24 @@ module Data.Time.Calendar.BankHoliday.EnglandAndWales
   , countBankHolidays
   ) where
 
-import Data.List
+import Data.List  ((\\))
 import Data.Time
-import Data.Time.Calendar.Easter
+  ( Day
+  , addDays
+  , fromGregorian
+  , toGregorian
+  , toModifiedJulianDay
+  )
+import Data.Time.Calendar.Easter (gregorianEaster)
 import qualified Data.Set as S
+  ( Set
+  , (\\)
+  , fromList
+  , member
+  , split
+  , toList
+  , union
+  )
 
 {-| List the bank holidays for the given year, in ascending order. Bank
 holidays never fall on a weekend. -}
