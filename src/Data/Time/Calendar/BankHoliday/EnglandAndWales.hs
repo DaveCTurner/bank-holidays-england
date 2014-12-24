@@ -55,30 +55,21 @@ import qualified Data.Set as S
 {-| List the bank holidays for the given year, in ascending order. Bank
 holidays never fall on a weekend. -}
 bankHolidays :: Integer -> [Day]
-bankHolidays yy = standardHolidays ++ if yy == 1999 then [dec 31] else []
-
+bankHolidays yy = S.toList $ standardHolidays S.\\ filterByYear yy skipped `S.union` filterByYear yy extras
   where
-  [jan, apr, may, jun, sep, dec] = map (fromGregorian yy)
-    [1,   4,   5,   6,   9,  12]
 
-  wd mm dd = toModifiedJulianDay (mm dd) `mod` 7
-
-  standardHolidays = newYearsDay ++ easter ++ mayDay ++ spring ++ [weekBefore $ firstMondayIn sep] ++ christmas
-
-  mayDay = case yy of
-    2011 -> [apr 29, may 2]
-    1995 -> [may 8]
-    _    -> [firstMondayIn may]
-
-  spring = case yy of
-    2002 -> [jun 3, jun 4]
-    2012 -> [jun 4, jun 5]
-    _    -> [weekBefore $ firstMondayIn jun]
+  standardHolidays = S.fromList
+    $  [ newYearsDay
+       , firstMondayIn may
+       , weekBefore $ firstMondayIn jun
+       , weekBefore $ firstMondayIn sep ]
+    ++ easter
+    ++ christmas
 
   newYearsDay = case wd jan 1 of
-    3 {- Sat -} -> [jan 3]
-    4 {- Sun -} -> [jan 2]
-    _           -> [jan 1]
+    3 {- Sat -} -> jan 3
+    4 {- Sun -} -> jan 2
+    _           -> jan 1
 
   easter = let easterSunday = gregorianEaster yy in [addDays (-2) easterSunday, addDays 1 easterSunday]
 
@@ -88,8 +79,19 @@ bankHolidays yy = standardHolidays ++ if yy == 1999 then [dec 31] else []
     4 {- Sun -} -> [dec 26, dec 27]
     _           -> [dec 25, dec 26]
 
+  [jan, may, jun, sep, dec] = map (fromGregorian yy)
+    [1,   5,   6,   9,  12]
+
   firstMondayIn mm = addDays (negate $ wd mm 02) (mm 07)
+
+  wd mm dd = toModifiedJulianDay (mm dd) `mod` 7
   weekBefore = addDays (-7)
+
+filterByYear :: Integer -> S.Set Day -> S.Set Day
+filterByYear y s0 = s2
+  where
+  (s1, _) = S.split                (fromGregorian (y+1) 1 1) s0
+  (_ ,s2) = S.split (addDays (-1) $ fromGregorian  y    1 1) s1
 
 skipped :: S.Set Day
 skipped = S.fromList  [ fromGregorian 1995 05 1
