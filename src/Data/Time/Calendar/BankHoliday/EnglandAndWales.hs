@@ -1,6 +1,45 @@
-{-| Reasonably efficient (constant-time) calculation of standard bank holidays
-in England and Wales, including special cases 1995-2014. May become out-of-date
-as future special cases are announced. -}
+{-|
+
+Calculation of bank holidays in England and Wales, using the rules that have
+been in place since 1978, and including all exceptions to the rules in the
+years 1995 to 2014. I do not know of any exceptions from 1978 until 1995, so
+the calculations may be correct for those years too. Calculations for future
+dates are predictions which may be rendered false if exceptions to the rules
+are announced.
+
+There are normally 8 bank holidays in England and Wales:
+
+  * New Year's Day
+  * Good Friday
+  * Easter Monday
+  * May Day
+  * Spring Bank Holiday
+  * Summer Bank Holiday
+  * Christmas Day
+  * Boxing Day
+
+The rules for determining the precise date of each of these in any given year
+are a little involved, since holidays may be moved to avoid falling on a
+weekend:
+
+  * The New Year's Day holiday is the 1st of January, or the following Monday if
+    the 1st is a weekend.
+  * Good Friday and Easter Monday are the Friday and Monday either side of
+    Easter Sunday (as calculated by the Gregorian method).
+  * May Day is the first Monday in May.
+  * The Spring Bank Holiday is the last Monday in May.
+  * The Summer Bank Holiday is the last Monday in August.
+  * Christmas Day is the 25th of December unless that's a weekend,
+    in which case it's the 27th.
+  * Boxing Day is the 26th of December unless that's a weekend,
+    in which case it's the 28th.
+
+Exceptions may be made to these rules on a year-by-year basis.
+
+This package is a reasonably efficient (constant-time) implementation of these
+rules.
+
+-}
 
 module Data.Time.Calendar.BankHoliday.EnglandAndWales 
   ( bankHolidays

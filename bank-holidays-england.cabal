@@ -1,7 +1,11 @@
 name:                bank-holidays-england
 version:             0.1.0.1
-synopsis:            Calculation of bank holidays in England and Wales, including special cases 1995-2014.
-description:         Calculation of bank holidays in England and Wales, including special cases 1995-2014.
+synopsis:            Calculation of bank holidays in England and Wales
+description:
+  Calculation of bank holidays in England and Wales, using the rules that have
+  been in place since 1978, and including all exceptions to the rules in the
+  years 1995 to 2014.
+
 homepage:            https://bitbucket.org/davecturner/bank-holidays-england
 license:             BSD3
 license-file:        LICENSE
