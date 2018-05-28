@@ -1,5 +1,5 @@
 name:                bank-holidays-england
-version:             0.1.0.6
+version:             0.1.0.7
 synopsis:            Calculation of bank holidays in England and Wales
 description:
   Calculation of bank holidays in England and Wales, using the rules that have
@@ -18,7 +18,7 @@ cabal-version:       >=1.10
 
 library
   exposed-modules:     Data.Time.Calendar.BankHoliday.EnglandAndWales
-  build-depends:       base >= 4.7 && < 4.11
+  build-depends:       base >= 4.7 && < 4.12
                      , time
                      , containers
   hs-source-dirs:      src
@@ -31,7 +31,7 @@ test-suite test
   hs-source-dirs: test
   default-language:    Haskell2010
   ghc-options: -Wall
-  build-depends:       base >= 4.7 && < 4.11
+  build-depends:       base >= 4.7 && < 4.12
                , bank-holidays-england
                , QuickCheck
                , containers
