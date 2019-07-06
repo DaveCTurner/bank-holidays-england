@@ -2,7 +2,7 @@
 
 Calculation of bank holidays in England and Wales, using the rules that have
 been in place since 1978, and including all exceptions to the rules in the
-years 1995 to 2014. I do not know of any exceptions from 1978 until 1995, so
+years 1995 to 2020. I do not know of any exceptions from 1978 until 1995, so
 the calculations may be correct for those years too. Calculations for future
 dates are predictions which may be rendered false if exceptions to the rules
 are announced.
@@ -111,6 +111,7 @@ skipped :: S.Set Day
 skipped = S.fromList  [ fromGregorian 1995 05 1
                       , fromGregorian 2002 05 27
                       , fromGregorian 2012 05 28
+                      , fromGregorian 2020 05 04
                       ]
 
 extras :: S.Set Day
@@ -121,6 +122,7 @@ extras  = S.fromList  [ fromGregorian 1995 05 08
                       , fromGregorian 2011 04 29
                       , fromGregorian 2012 06 04
                       , fromGregorian 2012 06 05
+                      , fromGregorian 2020 05 08
                       ]
 
 extraYears :: [Integer]
