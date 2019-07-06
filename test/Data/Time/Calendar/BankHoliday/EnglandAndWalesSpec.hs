@@ -3,9 +3,7 @@
 
 module Data.Time.Calendar.BankHoliday.EnglandAndWalesSpec (spec) where
 
-import Control.Applicative
 import Control.Monad
-import Data.Monoid
 import Data.Time
 import Test.Hspec
 import Test.QuickCheck
