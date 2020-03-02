@@ -1,4 +1,3 @@
-{-# LANGUAGE LambdaCase #-}
 {-# LANGUAGE OverloadedStrings #-}
 
 module Data.Time.Calendar.BankHoliday.EnglandAndWalesSpec (spec) where
@@ -14,7 +13,7 @@ spec :: Spec
 spec = do
   describe "bankHolidays" $ do
     let inYear = map . uncurry . fromGregorian
-    let hasBankHolidays yy dates = it ("works in " <> show yy)
+    let hasBankHolidays yy dates = it ("works in " ++ show yy)
           $ bankHolidays yy `shouldBe` inYear yy dates
 
     1995 `hasBankHolidays` [(01,02), (04,14), (04,17), (05,08), (05,29), (08,28), (12,25), (12,26)]
@@ -40,7 +39,7 @@ spec = do
 
   describe "isBankHoliday" $
     forM_ [1990..2020] $ \yr ->
-      it ("agrees with bankHolidays in " <> show yr) $
+      it ("agrees with bankHolidays in " ++ show yr) $
         filter isBankHoliday [fromGregorian yr 01 01 .. fromGregorian yr 12 31]
         `shouldBe` bankHolidays yr
 
