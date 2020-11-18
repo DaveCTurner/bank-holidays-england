@@ -112,6 +112,7 @@ skipped = S.fromList  [ fromGregorian 1995 05 1
                       , fromGregorian 2002 05 27
                       , fromGregorian 2012 05 28
                       , fromGregorian 2020 05 04
+                      , fromGregorian 2022 05 30
                       ]
 
 extras :: S.Set Day
@@ -123,6 +124,8 @@ extras  = S.fromList  [ fromGregorian 1995 05 08
                       , fromGregorian 2012 06 04
                       , fromGregorian 2012 06 05
                       , fromGregorian 2020 05 08
+                      , fromGregorian 2022 06 02
+                      , fromGregorian 2022 06 03
                       ]
 
 extraYears :: [Integer]
