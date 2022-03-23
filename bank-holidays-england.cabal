@@ -1,5 +1,5 @@
 name:                bank-holidays-england
-version:             0.2.0.6
+version:             0.2.0.7
 synopsis:            Calculation of bank holidays in England and Wales
 description:
   Calculation of bank holidays in England and Wales, using the rules that have
