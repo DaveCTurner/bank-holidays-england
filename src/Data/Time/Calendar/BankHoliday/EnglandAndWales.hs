@@ -127,6 +127,7 @@ extras  = S.fromList  [ fromGregorian 1995 05 08
                       , fromGregorian 2022 06 02
                       , fromGregorian 2022 06 03
                       , fromGregorian 2022 09 19
+                      , fromGregorian 2023 05 08
                       ]
 
 extraYears :: [Integer]
