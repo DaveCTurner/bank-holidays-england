@@ -32,6 +32,7 @@ test-suite test
   hs-source-dirs: test
   default-language:    Haskell2010
   ghc-options: -Wall
+  build-tool-depends:  hspec-discover:hspec-discover
   build-depends:       base >= 4.7 && < 5
                , bank-holidays-england
                , QuickCheck
