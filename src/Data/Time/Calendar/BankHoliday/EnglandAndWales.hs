@@ -93,8 +93,13 @@ bankHolidays yy = S.toList $ standardHolidays S.\\ filterByYear yy skipped `S.un
     4 {- Sun -} -> [dec 26, dec 27]
     _           -> [dec 25, dec 26]
 
-  [jan, may, jun, sep, dec] = map (fromGregorian yy)
-    [1,   5,   6,   9,  12]
+  (jan, may, jun, sep, dec) =
+    ( fromGregorian yy 1
+    , fromGregorian yy 5
+    , fromGregorian yy 6
+    , fromGregorian yy 9
+    , fromGregorian yy 12
+    )
 
   firstMondayIn mm = addDays (negate $ wd mm 02) (mm 07)
 
